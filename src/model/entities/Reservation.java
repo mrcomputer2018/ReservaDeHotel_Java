@@ -40,21 +40,20 @@ public class Reservation {
         TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
         return diff;
     }
-    public String updateDates(Date checkIn, Date checkOut) {
+    public void updateDates(Date checkIn, Date checkOut) {
         // Valicacao
         Date now = new Date();
         //Before - anerior
         if (checkIn.before(now) || checkOut.before(now)) {
-            return "Error in reservation: Reservation dates for update must be future dates!!!";
+            // Illegal - quando os argumentos passados sao invalidos
+            throw new IllegalArgumentException("Error in reservation: Reservation dates for update must be future dates!!!");
         }
-        if( !checkOut.after(checkIn)){
-           return "Error in reservation: Check-out date must be after check-in date!!!";
+        if( !checkOut.after(checkIn) ){
+            throw new IllegalArgumentException("Error in reservation: Check-out date must be after check-in date!!!");
         }
 
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        // Dizendo que nao teve erro com nulo
-        return null;
     }
 
     @Override
